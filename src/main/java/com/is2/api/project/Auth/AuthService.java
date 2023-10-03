@@ -1,15 +1,15 @@
 package com.is2.api.project.Auth;
 
-import com.is2.api.project.User.Users;
+import com.is2.api.project.Models.Users;
 import com.is2.api.project.Jwt.JwtService;
-import com.is2.api.project.User.Role;
+import com.is2.api.project.Models.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.is2.api.project.User.UserRepository;
+import com.is2.api.project.Repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.is2.api.project.User;
+package com.is2.api.project.Models;
 
 import java.util.Collection;
 import java.util.List;
