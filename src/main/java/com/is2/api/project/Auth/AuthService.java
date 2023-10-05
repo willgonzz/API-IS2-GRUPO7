@@ -3,6 +3,7 @@ package com.is2.api.project.Auth;
 import com.is2.api.project.Models.Users;
 import com.is2.api.project.Jwt.JwtService;
 import com.is2.api.project.Models.Role;
+import com.is2.api.project.Services.EmailService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,10 +41,11 @@ public class AuthService {
             .lastname(request.lastname)
             .country(request.getCountry())
             .role(Role.USER)
+            .mail(request.getMail())
             .build();
 
         userRepository.save(users);
-
+        EmailService.sendEmail(users.getMail(),"REGISTRO", "REGISTRO EXITOSO");
         return AuthResponse.builder()
             .token(jwtService.getToken(users))
             .build();

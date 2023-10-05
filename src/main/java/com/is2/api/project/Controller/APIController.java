@@ -9,6 +9,8 @@ import com.is2.api.project.Models.Role;
 import com.is2.api.project.Models.Users;
 import com.is2.api.project.Repository.ContenidoRepo;
 import com.is2.api.project.Repository.UserRepository;
+import com.is2.api.project.RequestConten;
+import com.is2.api.project.Services.EmailService;
 import com.is2.api.project.Services.RoleServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ public class APIController {
 
     private final ContenidoRepo contenidoRepo;
 
+
     @GetMapping("/mi-contenido")
     public List<Contenido> getContentUserById(Model model, @RequestBody AuthResponse authResponse){
 
@@ -55,15 +58,15 @@ public class APIController {
     }
 
     @PostMapping("/publicar-contenido")
-    public ResponseEntity<Contenido> pushConten(@RequestBody AuthResponse authResponse){
-        Users user=userRepository.findByUsername(jwtService.getUsernameFromToken(authResponse.getToken())).orElseThrow();
-        Contenido contenido = new Contenido();
-        contenido.setTituloContenido("Título del contenido");
-        contenido.setDescripcionContenido("Descripción del contenido");
-        contenido.setFechaCreacion(new Date());
-        contenido.setUsuario(user);
-        Contenido contenidoGuardado = contenidoRepo.save(contenido);
-        return new ResponseEntity<>(contenido,HttpStatus.OK);
+    public ResponseEntity<Contenido> pushConten(@RequestBody RequestConten req){
+        Users user=userRepository.findByUsername(jwtService.getUsernameFromToken(req.getAuthResponse().getToken())).orElseThrow();
+        req.getContenido().setTituloContenido("Título del contenido");
+        req.getContenido().setDescripcionContenido("Descripción del contenido");
+        req.getContenido().setFechaCreacion(new Date());
+        req.getContenido().setUsuario(user);
+        Contenido contenidoGuardado = contenidoRepo.save(req.getContenido());
+        EmailService.sendEmail(user.getMail(),"PUBLICACION DE CONTENIDO", "ARTICULO PUBLICADO PARA REVISION");
+        return new ResponseEntity<>(contenidoGuardado,HttpStatus.OK);
     }
 
     @GetMapping("/rolesDisponibles")
@@ -77,6 +80,8 @@ public class APIController {
         Users user=userRepository.findByUsername(jwtService.getUsernameFromToken(authResponse.getToken())).orElseThrow();
         user.setRole(role);
         userRepository.save(user);
+        EmailService.sendEmail(user.getMail(),"CAMBIO DE ROL", "Se le asigno el Rol"+user.getRole().name());
+
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
