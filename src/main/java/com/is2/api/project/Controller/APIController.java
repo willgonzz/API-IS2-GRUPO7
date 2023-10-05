@@ -2,17 +2,15 @@ package com.is2.api.project.Controller;
 
 import com.is2.api.project.Auth.AuthResponse;
 import com.is2.api.project.Jwt.JwtService;
-import com.is2.api.project.Models.CategoriaContenido;
-import com.is2.api.project.Models.Contenido;
-import com.is2.api.project.Models.Role;
-import com.is2.api.project.Models.Users;
+import com.is2.api.project.Models.*;
 import com.is2.api.project.Repository.ContenidoRepo;
 import com.is2.api.project.Repository.UserRepository;
 import com.is2.api.project.Request.RequestConten;
+import com.is2.api.project.Request.StatusContentReq;
 import com.is2.api.project.Request.UsuariosReq;
 import com.is2.api.project.Services.EmailService;
 import com.is2.api.project.Request.CambioRolReq;
-import com.is2.api.project.Services.RoleServices;
+import com.is2.api.project.Services.EnumServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -61,18 +59,33 @@ public class APIController {
     @PostMapping("/publicar-contenido")
     public ResponseEntity<Contenido> pushConten(@RequestBody RequestConten req){
         Users user=userRepository.findByUsername(jwtService.getUsernameFromToken(req.getAuthResponse().getToken())).orElseThrow();
-        req.getContenido().setTituloContenido("Título del contenido");
-        req.getContenido().setDescripcionContenido("Descripción del contenido");
         req.getContenido().setFechaCreacion(new Date());
         req.getContenido().setUsuario(user);
+        req.getContenido().setState(StateContenido.BORRADOR);
         Contenido contenidoGuardado = contenidoRepo.save(req.getContenido());
+
         EmailService.sendEmail(user.getMail(),"PUBLICACION DE CONTENIDO", "ARTICULO PUBLICADO PARA REVISION");
         return new ResponseEntity<>(contenidoGuardado,HttpStatus.OK);
     }
 
+    @PostMapping("/modificar-estado-contenido")
+    public ResponseEntity<Contenido> saveStatusContenido(@RequestBody StatusContentReq statusContentReq){
+        Contenido contenido = contenidoRepo.findById(statusContentReq.getId()).orElseThrow();
+        contenido.setState(statusContentReq.getStatus());
+        Contenido contenidoGuardado = contenidoRepo.save(contenido);
+        return new ResponseEntity<>(contenidoGuardado, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/StatusDisponibles")
+    public List<String> getstateContenidos(){
+        List<String> enumValuesList = EnumServices.enumToList(StateContenido.class);
+        return enumValuesList;
+    }
+
     @GetMapping("/rolesDisponibles")
     public List<String> getRoles(Model model){
-        List<String> enumValuesList = RoleServices.enumToList(Role.class);
+        List<String> enumValuesList = EnumServices.enumToList(Role.class);
         return enumValuesList;
     }
 
