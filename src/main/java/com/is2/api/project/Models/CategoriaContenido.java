@@ -3,6 +3,9 @@ package com.is2.api.project.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @ToString
 @Getter
 @Setter
@@ -13,10 +16,13 @@ import lombok.*;
 @Table(name = "categoria_contenido")
 public class CategoriaContenido {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idCategoria;
+    @GeneratedValue
+    private Integer id;
     private String nombreCategoria;
     private String codCategoria;
     private String descripcionCategoria;
 
+//
+//    @OneToMany(mappedBy = "categoria")
+//    private Set<Contenido> contenidos = new HashSet<>();
 }

@@ -2,8 +2,12 @@ package com.is2.api.project.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @ToString
@@ -16,14 +20,16 @@ import java.util.Set;
 @Table(name = "permiso")
 public class Permiso {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idPermiso;
+    @GeneratedValue
+    private Integer id;
     private String nombrePermiso;
     private String nivelPermiso;
+    @Enumerated(EnumType.STRING)
+    Role role;
 
-    @ManyToMany(mappedBy = "permisos")
-    private Set<Rol> roles = new HashSet<>();
-
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority((role.name())));
+    }
 
 }
 

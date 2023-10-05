@@ -13,8 +13,8 @@ import lombok.*;
 @Table(name = "historial_contenido")
 public class HistorialContenido {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idHistorialContenido;
+    @GeneratedValue
+    private Integer id;
     private String versionesContenido;
 }
 

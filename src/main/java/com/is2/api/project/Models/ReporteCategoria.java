@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "reporte_categoria")
 public class ReporteCategoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private String idReporteCategoria;
 //    @OneToMany(mappedBy = "CategoriaContenido")
 //    private List<CategoriaContenido> reporteCategoria;

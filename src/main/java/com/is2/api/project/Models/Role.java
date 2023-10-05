@@ -1,6 +1,14 @@
 package com.is2.api.project.Models;
 
+import java.util.ArrayList;
+
 public enum Role {
     ADMIN,
-    USER  
+    USER,
+    PUBLICADOR,
+    EDITADOR,
+    SUSCRIPTOR,
+    AUTOR
+
+
 }

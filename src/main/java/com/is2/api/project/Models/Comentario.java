@@ -13,8 +13,8 @@ import lombok.*;
 @Table(name = "comentario")
 public class Comentario {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idComentario;
+    @GeneratedValue
+    private Integer id;
     private String contenidoComentario;
 
 }

@@ -13,8 +13,8 @@ import lombok.*;
 @Table(name = "notificacion")
 public class Notificacion {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idNotificacion;
+    @GeneratedValue
+    private Integer id;
     private String contenidoNotificacion;
 
 
