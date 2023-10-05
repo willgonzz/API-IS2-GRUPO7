@@ -9,6 +9,7 @@ import com.is2.api.project.Models.Users;
 import com.is2.api.project.Repository.ContenidoRepo;
 import com.is2.api.project.Repository.UserRepository;
 import com.is2.api.project.Request.RequestConten;
+import com.is2.api.project.Request.UsuariosReq;
 import com.is2.api.project.Services.EmailService;
 import com.is2.api.project.Request.CambioRolReq;
 import com.is2.api.project.Services.RoleServices;
@@ -84,6 +85,12 @@ public class APIController {
 
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
-
+    @GetMapping("/obtener-usuarios")
+    public UsuariosReq getUsers(){
+        List<Users> users = userRepository.findAll();
+        UsuariosReq usuariosReq = new UsuariosReq();
+        usuariosReq.setUsers(users);
+        return usuariosReq;
+    }
 
 }
