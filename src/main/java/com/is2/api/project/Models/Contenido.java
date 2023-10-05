@@ -25,7 +25,8 @@ public class Contenido {
     private String informacionContenido;
     private Date fechaVigencia;
     private String tipoContenido;
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    StateContenido state;
 
 
     @ManyToOne
