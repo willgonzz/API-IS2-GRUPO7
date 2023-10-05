@@ -1,4 +1,4 @@
-package com.is2.api.project;
+package com.is2.api.project.Request;
 
 import com.is2.api.project.Auth.AuthResponse;
 import com.is2.api.project.Models.Contenido;
