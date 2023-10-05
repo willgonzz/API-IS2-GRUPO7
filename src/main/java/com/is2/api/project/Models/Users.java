@@ -32,7 +32,9 @@ public class Users implements UserDetails {
     String lastname;
     String firstname;
     String country;
+    @Column(nullable = false)
     String password;
+    String mail;
     @Enumerated(EnumType.STRING) 
     Role role;
 
