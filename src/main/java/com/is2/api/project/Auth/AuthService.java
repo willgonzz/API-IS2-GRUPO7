@@ -14,6 +14,8 @@ import com.is2.api.project.Repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -31,6 +33,11 @@ public class AuthService {
             .token(token)
             .build();
 
+    }
+
+    public Boolean verificaRegistro(RegisterRequest request){
+        Optional<Users> existingUser = userRepository.findByUsername(request.getUsername());
+        return existingUser.isPresent();
     }
 
     public AuthResponse register(RegisterRequest request) {

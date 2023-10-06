@@ -3,6 +3,7 @@ package com.is2.api.project.Controller;
 import com.is2.api.project.Auth.AuthResponse;
 import com.is2.api.project.Jwt.JwtService;
 import com.is2.api.project.Models.*;
+import com.is2.api.project.Repository.CategoriaRepo;
 import com.is2.api.project.Repository.ContenidoRepo;
 import com.is2.api.project.Repository.UserRepository;
 import com.is2.api.project.Request.RequestConten;
@@ -35,6 +36,8 @@ public class APIController {
 
     private final ContenidoRepo contenidoRepo;
 
+    private final CategoriaRepo categoriaRepo;
+
 
     @GetMapping("/mi-contenido")
     public List<Contenido> getContentUserById(Model model, @RequestBody AuthResponse authResponse){
@@ -54,6 +57,13 @@ public class APIController {
     public List<Contenido> getContentFilter(Model model,CategoriaContenido categoriaContenido){
         List<Contenido> contenidos = contenidoRepo.findByCategoriaContenido(categoriaContenido);
         return contenidos;
+    }
+
+
+    @GetMapping("/obtener-categorias")
+    public List<CategoriaContenido> getCategorias(){
+        List<CategoriaContenido> listCate = categoriaRepo.findAll();
+        return listCate;
     }
 
     @PostMapping("/publicar-contenido")
@@ -77,13 +87,13 @@ public class APIController {
     }
 
 
-    @GetMapping("/StatusDisponibles")
+    @GetMapping("/estados-disponibles")
     public List<String> getstateContenidos(){
         List<String> enumValuesList = EnumServices.enumToList(StateContenido.class);
         return enumValuesList;
     }
 
-    @GetMapping("/rolesDisponibles")
+    @GetMapping("/roles-disponibles")
     public List<String> getRoles(Model model){
         List<String> enumValuesList = EnumServices.enumToList(Role.class);
         return enumValuesList;
